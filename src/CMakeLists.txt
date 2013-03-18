@@ -39,3 +39,15 @@ if(CMAKE_EXTRA_GENERATOR OR MSVC_IDE)
 endif()
 
 add_library(cucumber-cpp STATIC ${CUKE_SOURCES})
+
+install(
+  TARGETS cucumber-cpp
+  EXPORT cucumber-cpp
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
+install(
+  EXPORT cucumber-cpp
+  DESTINATION lib
+)

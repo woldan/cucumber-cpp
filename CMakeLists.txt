@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 2.8)
 
 project(Cucumber-Cpp)
 
+include(CPack)
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Support for writing Cucumber step definitions in C++ using the wire protocol.")
+SET(CPACK_PACKAGE_VENDOR "The cucumber contributors. See: http://cukes.info/ .")
+SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
+
 set(CUKE_USE_STATIC_BOOST ${MSVC} CACHE BOOL "Statically link Boost (except boost::test)")
 set(CUKE_DISABLE_BOOST_TEST OFF CACHE BOOL "Disable boost:test")
 set(CUKE_DISABLE_CPPSPEC OFF CACHE BOOL "Disable CppSpec")
@@ -118,6 +124,17 @@ set(CUKE_LIBRARIES cucumber-cpp ${CUKE_EXTRA_LIBRARIES})
 
 add_subdirectory(src)
 add_subdirectory(tests)
+
+file(
+  GLOB
+  tmp_include_dirs
+  RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CUKE_INCLUDE_DIR}/*
+)
+install(
+  DIRECTORY ${tmp_include_dirs}
+  DESTINATION include
+)
 
 if(CUKE_ENABLE_EXAMPLES)
     add_subdirectory(examples)
