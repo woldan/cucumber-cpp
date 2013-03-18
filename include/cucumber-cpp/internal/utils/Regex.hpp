@@ -3,10 +3,21 @@
 
 #include <vector>
 
+#ifdef USE_BOOST_ICU_REGEX
+ // if boost::regex was built with ICU backend support => use this to enable UTF-8 support ..
+ #include <boost/regex/icu.hpp>
+#endif //ifdef USE_BOOST_ICU_REGEX
+
 #include <boost/regex.hpp>
 
 namespace cucumber {
 namespace internal {
+
+#ifdef USE_BOOST_ICU_REGEX
+  typedef boost::u32regex boost_regex_type;
+#else //ifdef USE_BOOST_ICU_REGEX
+  typedef boost::regex boost_regex_type;
+#endif //ifdef USE_BOOST_ICU_REGEX
 
 struct RegexSubmatch {
     std::string value;
@@ -30,18 +41,19 @@ protected:
 
 class FindRegexMatch : public RegexMatch {
 public:
-    FindRegexMatch(const boost::regex &regexImpl, const std::string &expression);
+    FindRegexMatch(const boost_regex_type &regexImpl, const std::string &expression);
 };
 
 class FindAllRegexMatch : public RegexMatch {
 public:
-    FindAllRegexMatch(const boost::regex &regexImpl, const std::string &expression);
+    FindAllRegexMatch(const boost_regex_type &regexImpl, const std::string &expression);
 };
 
 
 class Regex {
 private:
-    boost::regex regexImpl;
+    boost_regex_type regexImpl;
+    std::string regexSpec;
 
 public:
     Regex(std::string expr);

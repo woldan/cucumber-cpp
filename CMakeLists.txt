@@ -8,6 +8,8 @@ set(CUKE_DISABLE_CPPSPEC OFF CACHE BOOL "Disable CppSpec")
 set(CUKE_DISABLE_GTEST OFF CACHE BOOL "Disable Google Test framework")
 set(CUKE_ENABLE_EXAMPLES OFF CACHE BOOL "Enable the examples")
 
+option(USE_BOOST_ICU_REGEX "Whether to use boost::u32regex (select this if your boost::regex is built with ICU support)." FALSE)
+
 enable_testing()
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
@@ -55,6 +57,11 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_ALL_DYN_LINK")
 endif()
 
+if (USE_BOOST_ICU_REGEX)
+  find_package(ICU)
+  add_definitions(-DUSE_BOOST_ICU_REGEX)
+endif(USE_BOOST_ICU_REGEX)
+
 if(CUKE_STATIC_BOOST_LIBS)
     set(Boost_USE_STATIC_LIBS ON)
     find_package(Boost ${BOOST_MIN_VERSION} COMPONENTS ${CUKE_STATIC_BOOST_LIBS})
@@ -68,6 +75,11 @@ endif()
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
     set(CUKE_EXTRA_LIBRARIES ${CUKE_EXTRA_LIBRARIES} ${Boost_THREAD_LIBRARY} ${Boost_SYSTEM_LIBRARY} ${Boost_REGEX_LIBRARY} ${Boost_DATE_TIME_LIBRARY})
+
+    if (ICU_FOUND)
+      include_directories(${ICU_INCLUDE_DIRS})
+      set(CUKE_EXTRA_LIBRARIES ${CUKE_EXTRA_LIBRARIES} ${ICU_LIBRARIES})
+    endif (ICU_FOUND)
 endif()
 
 #
