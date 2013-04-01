@@ -5,8 +5,12 @@ namespace internal {
 
 Regex::Regex(std::string regularExpression) :
     regexSpec(regularExpression),
-    regexImpl(boost::make_u32regex(regularExpression.c_str())) {
-}
+#ifdef USE_BOOST_ICU_REGEX
+    regexImpl(boost::make_u32regex(regularExpression.c_str()))
+#else //ifdef USE_BOOST_ICU_REGEX
+    regexImpl(regularExpression.c_str())
+#endif //ifdef USE_BOOST_ICU_REGEX
+{}
 
 bool RegexMatch::matches() {
     return regexMatched;
