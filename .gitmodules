@@ -1,3 +1,6 @@
 [submodule "features/cucumber-tck"]
 	path = features/cucumber-tck
 	url = git://github.com/cucumber/cucumber-tck.git
+[submodule "crow"]
+	path = crow
+	url = https://github.com/woldan/crow.git
