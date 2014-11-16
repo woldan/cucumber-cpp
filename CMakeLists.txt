@@ -107,7 +107,7 @@ include_directories(${CUKE_INCLUDE_DIR})
 
 set(CUKE_LIBRARIES cucumber-cpp ${CUKE_EXTRA_LIBRARIES})
 
-add_subdirectory(deps/crow)
+add_subdirectory(crow)
 add_subdirectory(src)
 add_subdirectory(tests)
 
