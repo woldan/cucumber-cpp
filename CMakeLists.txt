@@ -38,7 +38,7 @@ else()
     set(BOOST_MIN_VERSION "1.40")
 endif()
 
-set(CUKE_CORE_BOOST_LIBS thread system regex date_time)
+set(CUKE_CORE_BOOST_LIBS thread system regex date_time program_options)
 if(NOT CUKE_DISABLE_BOOST_TEST)
     set(CUKE_TEST_BOOST_LIBS unit_test_framework)
 endif()

@@ -1,3 +1,4 @@
+set(CMAKE_CXX_STANDARD 11)
 set(CUKE_SOURCES
     ContextManager.cpp
     CukeCommands.cpp
@@ -39,4 +40,5 @@ endif()
 
 add_library(cucumber-cpp-nomain STATIC ${CUKE_SOURCES})
 add_library(cucumber-cpp STATIC ${CUKE_SOURCES} main.cpp)
+target_compile_options(cucumber-cpp PUBLIC $<$<CXX_COMPILER_ID:Clang>:-std=c++11>)
 
